@@ -8,26 +8,26 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	private Timestamp regdate;
-	private int count;
+	private int regcount;
 	public BoardVO() { }
 	
-	public BoardVO(String title, String content, String writer, Timestamp regdate, int count) {
+	public BoardVO(String title, String content, String writer, Timestamp regdate, int regcount) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.regdate = regdate;
-		this.count = count;
+		this.regcount = regcount;
 	}
 	
-	public BoardVO(int num, String title, String content, String writer, Timestamp regdate, int count) {
+	public BoardVO(int num, String title, String content, String writer, Timestamp regdate, int regcount) {
 		super();
 		this.num = num;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.regdate = regdate;
-		this.count = count;
+		this.regcount = regcount;
 	}
 
 	public int getNum() {
@@ -60,16 +60,16 @@ public class BoardVO {
 	public void setRegdate(Timestamp regdate) {
 		this.regdate = regdate;
 	}
-	public int getCount() {
-		return count;
+	public int getRegcount() {
+		return regcount;
 	}
-	public void setCount(int count) {
-		this.count = count;
+	public void setRegcount(int regcount) {
+		this.regcount = regcount;
 	}
 	
 	@Override
 	public String toString() {
 		return "BoardVO [num=" + num + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
-				+ regdate + ", count=" + count + "]";
+				+ regdate + ", regcount=" + regcount + "]";
 	}
 }

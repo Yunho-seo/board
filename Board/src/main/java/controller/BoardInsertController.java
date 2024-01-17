@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +30,6 @@ public class BoardInsertController extends HttpServlet {
 		// System.out.println(vo.toString());
 		BoardDAO dao = new BoardDAO();
 		int cnt = dao.boardInsert(vo);
-		PrintWriter out = response.getWriter();
 		if (cnt > 0) {
 			response.sendRedirect("/Board/boardList.do");
 		} else {

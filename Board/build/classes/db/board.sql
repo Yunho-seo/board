@@ -3,7 +3,8 @@ create table board(
  title varchar(30) not null,
  content varchar(500) not null,
  writer varchar(20) not null,
- regdate timestamp
+ regdate timestamp,
+ regcount int default 0
 );
 
 select * from board;
@@ -15,3 +16,7 @@ drop table board;
 select num, title, writer, regdate from board;
 
 alter table board add column count int not null;
+
+alter table board modify coulmn 'count' int default 0;
+
+delete from board where num=8;

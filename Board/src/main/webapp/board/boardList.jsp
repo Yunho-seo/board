@@ -8,11 +8,12 @@
 	BoardDAO dao = new BoardDAO();
 	ArrayList<BoardVO> list = dao.boardList();
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>리스트화면</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,10 +39,10 @@
 	<% for(BoardVO vo : list) { %>
 			<tr>
 			<td><%=vo.getNum()%></td>
-			<td><a href=""><%=vo.getTitle()%></a></td>
+			<td><a href="/Board/boardContent.do?num=<%=vo.getNum()%>"><%=vo.getTitle()%></a></td>
 			<td><%=vo.getWriter()%></td>
 			<td><%=formatDate(vo.getRegdate())%></td>
-			<td><%=vo.getCount()%></td>
+			<td><%=vo.getRegcount()%></td>
 			<!-- <td><input type="button" value="삭제" class="btn btn-warning" onclick="deleteFn(<%=vo.getNum()%>)"></td> -->
 		</tr>
 	<% } %>

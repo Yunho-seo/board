@@ -44,7 +44,7 @@ public class BoardDAO {
 	
 	// 리스트 조회
 	public ArrayList<BoardVO> boardList() {
-		String SQL = "select num, title, writer, regdate, count from board";
+		String SQL = "select num, title, writer, regdate, regcount from board";
 		getConnect();
 		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
 		try {
@@ -55,9 +55,9 @@ public class BoardDAO {
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
 				Timestamp regdate = rs.getTimestamp("regdate");
-				int count = rs.getInt("count");
+				int regcount = rs.getInt("regcount");
 				
-				BoardVO vo = new BoardVO(num, title, null, writer, regdate, count);
+				BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount);
 				list.add(vo);
 			}
 		} catch (Exception e) {
@@ -68,15 +68,35 @@ public class BoardDAO {
 		return list;
 	}
 	
+	// 리스트 삭제
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	// 글 보기
+	public BoardVO boardContent(int num) {
+		String SQL = "select title, content, writer, regdate, regcount from board where num=?";
+		getConnect();
+		BoardVO vo = null;
+		try {
+			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, num);
+			rs = ps.executeQuery();		
+			if (rs.next()) {
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String writer = rs.getString("writer");
+				Timestamp regdate = rs.getTimestamp("regdate");
+				int regcount = rs.getInt("regcount");
+				content = content.replace("\r\n", "<br>");
+				
+				vo = new BoardVO(title, content, writer, regdate, regcount);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return vo;
+	}
 	
 	// DB 연동 해제
 	public void dbClose() {
@@ -87,14 +107,5 @@ public class BoardDAO {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
 }
