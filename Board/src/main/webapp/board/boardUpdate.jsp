@@ -10,22 +10,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자세히보기</title>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css'>
-	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
-	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js'></script>
-
-	<script type="text/javascript">
-	function deleteFn(num) {
-		location.href="boardDelete.do?num="+num;
-	}
-	</script>
+<title>게시글 수정화면</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<form action="boardUpdateView.do" method="get">  <!-- 수정하기 버튼 누르면 boardUpdate.jsp 페이지로 action -->
+<h1>게시글 수정화면</h1>
+<form action="boardUpdate.do", method="post">
 <input type="hidden" name="num" value="<%=vo.getNum()%>"/>
-<table class='table table-bordered'>
+<table class="table table-bordered">
 <% if(vo!=null) { %>
 	<tr>
 		<td>번호</td>
@@ -33,11 +28,13 @@
 	</tr>
 	<tr>
 		<td>제목</td>
-		<td><%=vo.getTitle()%></td>
+		<td><input type='text' name='title' value="<%=vo.getTitle()%>" required/></td>
 	</tr>
 	<tr>
 		<td>본문</td>
-		<td><%=vo.getContent()%></td>
+		<td><textarea wrap='hard' rows='10' cols='100' name='content' required/><%=vo.getContent()%></textarea>
+    		<br> ※ 최대 500자까지 작성 가능합니다.
+    	</td>
 	</tr>
 	<tr>
 		<td>작성자</td>
@@ -47,20 +44,15 @@
 		<td>등록일자</td>
 		<td><%=formatDate(vo.getRegdate())%></td>
 	</tr>
-	<tr>
-		<td>조회수</td>
-		<td><%=vo.getRegcount()%></td>
-	</tr>
 	<% } else { %>
 	<tr>
 		<td>일치하는 글이 없습니다.</td>
 	</tr>
 	<% } %>
 	<tr>
-		<td colspan="2" align="right">
+		<td colspan="2" align="center">
 			<input type="submit" value="수정" class='btn btn-primary'/>
-			<input type="button" value="삭제" class='btn btn-warning' onclick="deleteFn(<%=vo.getNum()%>)"/>
-			<input type="button" value="돌아가기" onclick="location.href='/Board/board/boardList.jsp'" class='btn'/>
+			<input type="reset" value="취소" class="btn btn-warning" onclick="history.back();"/>
 		</td>
 	</tr>
 </table>

@@ -14,16 +14,16 @@
 <table class="table table-bordered">
   <tr>
     <td>제목</td>
-    <td><input type="text" name="title"/></td>
+    <td><input type="text" name="title" required/></td> <!-- required은 값이 입력되지 않았거나 check / select되지 않았을 경우 브라우저의 알림 표시하게 함 -->
   </tr>
   <tr>
     <td>본문</td>
-    <td><textarea wrap="hard" rows="10" cols="100" name="content"></textarea>
+    <td><textarea wrap="hard" rows="10" cols="100" name="content" required></textarea>
     <br> ※ 최대 500자까지 작성 가능합니다. </td>
   </tr>
   <tr>
     <td>작성자</td>
-    <td><input type="text" name="writer"/></td>
+    <td><input type="text" name="writer" required/></td>
   </tr>
   
     <td colspan="2" align="center">

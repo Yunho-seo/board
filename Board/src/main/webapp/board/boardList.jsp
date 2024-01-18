@@ -25,14 +25,14 @@
 <table class='table table-bordered'>
 	<thead>
 	<tr>
-		<td colspan="5" align="laft"><input type="button" value="게시글 작성" class="btn btn-primary" 
-	  	onclick="location.href='boardRegister.html'"/></td>
+		<td colspan="5" align="laft"><input type="button" value="글 쓰기" class="btn btn-outline-primary" 
+	  	onclick="location.href='/Board/board/boardRegister.html'"/></td>
 	</tr>
 	<tr>
 		<td>글 번호</td>
 		<td>제목</td>
 		<td>작성자</td>
-		<td>작성시간</td>
+		<td>작성일자</td>
 		<td>조회수</td>
 	</tr>
 	</thead>
@@ -47,9 +47,26 @@
 		</tr>
 	<% } %>
 </table>
+
+<div class="high">
+	<form action="search.jsp" name="search" method="post">
+		<table class="pull-right">
+			<tr>
+				<td> <select name="searchField" class="form-control">
+						<option value="0">선택</option>
+						<option value="Title">제목</option>
+						<option value="Writer">작성자</option>
+					</select></td>
+					<td><input type="text" class="form-control"
+						placeholder="검색어 입력" name="searchText" maxlength="100"></td>
+					<td><button type="submit" class="btn btn-success">검색</button></td>
+			</tr>	
+		</table>	
+	</form>
+</div>
 <%!
 	private String formatDate(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(date);
 }
 %>
