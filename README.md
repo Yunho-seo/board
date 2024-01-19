@@ -2,7 +2,9 @@
 게시판 연습
 
 18 할일 : 제목, 본문, 작성자 빈칸이면 Validation 검증해서 공백으로 못넘어가게 하기 / 수정기능, 삭제 기능 완성하기
-
+  <br> -> 검증 완료 (빈칸이면 알림이 출력된다)
+  <br> -> 수정, 삭제 완성 (삭제는 button 누르면 바로 됨)
+  
 19 할일 : search 완성, 조회수 increasing, search시 페이지 부동, 가능하면 디자인 
   <br> -> 우선 제목(Title)로만 search가 됨 (select 태그의 option이 소용이 없음 -> title, writer 옵션에 알맞게 검색되도록 수정해야함)
   <br> -> 조회수 increasing은 못함 (regCount 필드에서 컬럼으로 조작해야 할듯?)
