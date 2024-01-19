@@ -9,7 +9,7 @@
 
 	// DB에서 데이터 가져오기
 	BoardDAO dao = new BoardDAO();
-	ArrayList<BoardVO> list = dao.boardList();
+	ArrayList<BoardVO> list = dao.searchTitle(searchText);
 %>
 
 <!DOCTYPE html>
@@ -58,8 +58,6 @@
 		</tr>
 	<% } %>
 </table>
-
-
 <%!
 	private String formatDate(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
