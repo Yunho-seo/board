@@ -36,7 +36,7 @@ public class BoardDAO {
 				Timestamp regdate = rs.getTimestamp("regdate");
 				int regcount = rs.getInt("regcount");
 				
-				BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount);
+				BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount, null);
 				list.add(vo);
 			}
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class BoardDAO {
 	            Timestamp regdate = rs.getTimestamp("regdate");
 	            int regcount = rs.getInt("regcount");
 
-	            BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount);
+	            BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount, null);
 	            list.add(vo);
 			}
 		} catch (Exception e) {
@@ -77,7 +77,7 @@ public class BoardDAO {
 	
 	// 글 등록(저장)
 	public int boardInsert(BoardVO vo) {
-		String SQL = "insert into board(title, content, writer) values (?, ?, ?)";
+		String SQL = "insert into board(title, content, writer, pw) values (?, ?, ?, ?)";
 		getConnect();
 		int cnt = -1;
 		try {
@@ -85,6 +85,7 @@ public class BoardDAO {
 			ps.setString(1, vo.getTitle());
 			ps.setString(2, vo.getContent());
 			ps.setString(3, vo.getWriter());
+			ps.setString(4, vo.getPw());
 			
 			cnt = ps.executeUpdate();
 			
@@ -134,6 +135,27 @@ public class BoardDAO {
 		return cnt;
 	}
 	
+	// 비밀번호 검사 (수정시)
+	public boolean checkPw(int num, String pw) {
+		String SQL = "select pw from board where num=?";
+		getConnect();
+		try {
+			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, num);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				String dbPw = rs.getString("pw");
+				return pw.equals(dbPw);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return false;
+	}
+	
 	// 글 상세보기
 	public BoardVO boardContent(int num) {
 		String SQL = "select * from board where num=?";
@@ -153,7 +175,9 @@ public class BoardDAO {
 				int regcount = rs.getInt("regcount");
 				content = content.replace("\n", "<br>");
 				
-				vo = new BoardVO(num, title, content, writer, regdate, regcount);
+				vo = new BoardVO(num, title, content, writer, regdate, regcount, null);
+				
+				upRegcount(num, regdate);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,6 +185,19 @@ public class BoardDAO {
 			dbClose();
 		}
 		return vo;
+	}
+	
+	
+	private void upRegcount(int num, Timestamp regdate) {
+		String SQL = "update board set regcount = regcount + 1 where num=?";
+		
+		try {
+			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, num);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// DB 연동 해제

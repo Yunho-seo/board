@@ -9,18 +9,20 @@ public class BoardVO {
 	private String writer;
 	private Timestamp regdate;
 	private int regcount;
+	private String pw;
 	public BoardVO() { }
 	
-	public BoardVO(String title, String content, String writer, Timestamp regdate, int regcount) {
+	public BoardVO(String title, String content, String writer, Timestamp regdate, int regcount, String pw) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.regdate = regdate;
 		this.regcount = regcount;
+		this.pw = pw;
 	}
 	
-	public BoardVO(int num, String title, String content, String writer, Timestamp regdate, int regcount) {
+	public BoardVO(int num, String title, String content, String writer, Timestamp regdate, int regcount, String pw) {
 		super();
 		this.num = num;
 		this.title = title;
@@ -28,6 +30,7 @@ public class BoardVO {
 		this.writer = writer;
 		this.regdate = regdate;
 		this.regcount = regcount;
+		this.pw = pw;
 	}
 
 	public int getNum() {
@@ -66,10 +69,16 @@ public class BoardVO {
 	public void setRegcount(int regcount) {
 		this.regcount = regcount;
 	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
 	
 	@Override
 	public String toString() {
 		return "BoardVO [num=" + num + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regdate="
-				+ regdate + ", regcount=" + regcount + "]";
+				+ regdate + ", regcount=" + regcount + ", pw=" + pw + "]";
 	}
 }

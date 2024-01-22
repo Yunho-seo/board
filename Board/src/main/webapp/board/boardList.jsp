@@ -11,35 +11,33 @@
 	BoardDAO dao = new BoardDAO();
 	ArrayList<BoardVO> list = dao.boardList();
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>게시판 리스트</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <title>서윤호의 게시판</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+  .fakeimg {
+    height: 200px;
+    background: #aaa;
+  }
+  </style>
 </head>
-<body>
-<h1>리스트화면</h1>
 
-<div class="div1">
-<form action="/Board/boardSearch.do" name="searchForm" method="post">
-	<select name="searchField" id="search">
-		<option value="title">제목</option>
-		<option value="writer">작성자</option>		
-	</select>
-	<input type="text" name="searchText" id="searchText">
-	<button type="submit">검색</button>
-</form>	
+<body>
+<div class="container">
+<div class="p-5 bg-primary text-white text-center">
+  <h1>서윤호의 게시판</h1>
+  <p>Hello!</p> 
 </div>
 
-<table class='table table-bordered'>
+
+<table class='table table-hover'>
 	<thead>
-	<tr>
-		<td colspan="5" align="right"><input type="button" value="글 쓰기" class="btn btn-outline-primary" 
-	  	onclick="location.href='/Board/board/boardRegister.html'"/></td>
-	</tr>
+	
 	<tr>
 		<th width="15%">글 번호</th>
 		<th width="40%">제목</th>
@@ -48,6 +46,7 @@
 		<th width="15%">조회수</th>
 	</tr>
 	</thead>
+	<tbody>
 	<% for(BoardVO vo : list) { %>
 			<tr>
 			<td><%=vo.getNum()%></td>
@@ -57,14 +56,29 @@
 			<td><%=vo.getRegcount()%></td>
 		</tr>
 	<% } %>
+	</tbody>
 </table>
 
+<div class="div1">
+<form action="/Board/boardSearch.do" name="searchForm" method="post">
+	<select name="searchField" id="search">
+		<option value="title">제목</option>
+		<option value="writer">작성자</option>		
+	</select>
+	<input type="search" name="searchText" id="searchText">
+	<button type="submit" class="btn btn-outline-primary">검색</button>
+</form>	
+</div>
 
+<div class="div2" align="right">
+<tr>
+	<input type="button" value="게시글 쓰기" class="btn btn-outline-primary" 
+	  onclick="location.href='/Board/board/boardRegister.html'"/></td>
+</tr>
+</div>
 <%!
 	private String formatDate(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(date);
 }
 %>
-</body>
-</html>

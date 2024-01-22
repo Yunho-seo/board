@@ -21,11 +21,13 @@ public class BoardInsertController extends HttpServlet {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String writer = request.getParameter("writer");
+		String pw = request.getParameter("pw");
 		
 		BoardVO vo = new BoardVO();
 		vo.setTitle(title);
 		vo.setContent(content);
 		vo.setWriter(writer);
+		vo.setPw(pw);
 		
 		// System.out.println(vo.toString());
 		BoardDAO dao = new BoardDAO();

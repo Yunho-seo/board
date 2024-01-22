@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,22 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.BoardDAO;
+import model.BoardVO;
 
-@WebServlet("/boardDelete.do")
-public class BoardDeleteController extends HttpServlet {
+@WebServlet("/boardDeleteView.do")
+public class BoardDeleteViewController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		int num = Integer.parseInt(request.getParameter("num"));
 		
 		BoardDAO dao = new BoardDAO();
-		int cnt = dao.boardDelete(num);
+		BoardVO vo = dao.boardContent(num);
 		
-		if (cnt > 0) {
-			response.sendRedirect("/Board/boardList.do");
-		} else {
-			throw new ServletException("not delete");
-		}
+		request.setAttribute("vo", vo);
+		RequestDispatcher rd = request.getRequestDispatcher("board/boardDelete.jsp");
+		rd.forward(request, response);
 	}
-
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,19 +20,38 @@ public class BoardUpdateController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int num = Integer.parseInt(request.getParameter("num"));
+		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String pw = request.getParameter("pw");
 		
+		BoardDAO dao = new BoardDAO();
+		
+		boolean checkPw = dao.checkPw(num, pw);
+		
+		if (!checkPw) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호가 일치하지 않습니다.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		}
+		
+		// Update Logic
 		BoardVO vo = new BoardVO();
 		vo.setNum(num);
 		vo.setTitle(title);
 		vo.setContent(content);
-		
-		BoardDAO dao = new BoardDAO();
+	
 		int cnt = dao.boardUpdate(vo);
 		
 		if (cnt > 0) {
-			response.sendRedirect("/Board/boardList.do");
+			response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('수정이 완료되었습니다.');location.href='/Board/boardList.do';</script>");
+            out.flush();
+            out.close();
 		} else {
 			throw new ServletException("not update");
 		}
