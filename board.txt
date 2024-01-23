@@ -4,7 +4,8 @@ create table board(
  content varchar(500) not null,
  writer varchar(20) not null,
  regdate timestamp,
- regcount int default 0
+ regcount int default 0,
+ pw varchar(10) not null
 );
 
 
