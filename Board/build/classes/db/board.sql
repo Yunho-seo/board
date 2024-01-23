@@ -21,3 +21,5 @@ delete from board where num=8;
 select * from board where title like '%호%';
 
 alter table board add column pw varchar(10) not null;
+
+select count(*) from board;

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -20,11 +21,18 @@ public class BoardSearchController extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		
-        String searchText = request.getParameter("searchText");
-        
 		BoardDAO dao = new BoardDAO();	
-		ArrayList<BoardVO> list = dao.searchTitle(searchText);
-		// ArrayList<BoardVO> writerList = dao.searchWriter(searchText);
+		ArrayList<BoardVO> list = dao.getSearch(request.getParameter("searchField"), 
+				request.getParameter("searchText"));
+		
+		if (list.size() == 0) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('검색결과가 없습니다.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		}
 		
         request.setAttribute("list", list);
         RequestDispatcher rd = request.getRequestDispatcher("/board/boardSearch.jsp");

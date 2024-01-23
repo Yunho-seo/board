@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,36 @@ public class BoardInsertController extends HttpServlet {
 		String content = request.getParameter("content");
 		String writer = request.getParameter("writer");
 		String pw = request.getParameter("pw");
+		
+		if (title.length() > 30) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('제목은 30자 이하로 입력해주세요.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		} else if (content.length() > 500) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('본문은 500자 이하로 입력해주세요.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		} else if (writer.length() > 20) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('작성자명은 20자 이하로 입력해주세요.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		} else if (pw.length() > 10) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호는 10자 이하로 입력해주세요.');history.go(-1);</script>");
+			out.flush();
+            out.close();
+            return;
+		}
 		
 		BoardVO vo = new BoardVO();
 		vo.setTitle(title);

@@ -21,14 +21,19 @@ public class BoardDAO {
 		}
 	}
 	
-	// 리스트 조회
-	public ArrayList<BoardVO> boardList() {
-		String SQL = "select num, title, writer, regdate, regcount from board order by num DESC";
+	/*
+	// 리스트인데 페이지네이션을 곁들인
+	public ArrayList<BoardVO> boardList(int pageNumber, int pageSize) {
+		String SQL = "select num, title, writer, regdate, regcount from board order by num DESC limit ?, ?";
 		getConnect();
-		ArrayList<BoardVO> list = new ArrayList<BoardVO>();
+		ArrayList<BoardVO> list = new ArrayList<>();
+		
 		try {
 			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, (pageNumber - 1) * pageSize);
+			ps.setInt(2, pageSize);
 			rs = ps.executeQuery();
+			
 			while(rs.next()) {
 				int num = rs.getInt("num");
 				String title = rs.getString("title");
@@ -46,15 +51,71 @@ public class BoardDAO {
 		}
 		return list;
 	}
-		
-	public ArrayList<BoardVO> searchTitle(String searchText) {
-		String SQL = "select * from board where title LIKE ? order by num DESC";
+	*/
+	
+	/*
+	// 전체 건수
+	public int getTotalRecords() {
+		String SQL = "select count(*) from board";
 		getConnect();
-		ArrayList<BoardVO> list = new ArrayList<>();
+		int totalRecords = 0;
+		
 		try {
 			ps = conn.prepareStatement(SQL);
-			ps.setString(1, "%" + searchText + "%");
 			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				totalRecords = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return totalRecords;
+	}
+	*/
+	
+	// 리스트
+	public ArrayList<BoardVO> boardList() {
+		String SQL = "select num, title, writer, regdate, regcount from board order by num DESC";
+		getConnect();
+		ArrayList<BoardVO> list = new ArrayList<>();
+		
+		try {
+			ps = conn.prepareStatement(SQL);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int num = rs.getInt("num");
+				String title = rs.getString("title");
+				String writer = rs.getString("writer");
+				Timestamp regdate = rs.getTimestamp("regdate");
+				int regcount = rs.getInt("regcount");
+				
+				BoardVO vo = new BoardVO(num, title, null, writer, regdate, regcount, null);
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return list;
+	}
+	
+	// 검색	
+	public ArrayList<BoardVO> getSearch(String searchField, String searchText) {
+		ArrayList<BoardVO> list = new ArrayList<>();
+		
+		String SQL = "select * from board where " + searchField.trim();
+		getConnect();
+		try {
+			if(searchText != null && !searchText.equals("")) {  // AND
+				SQL += " like '%" + searchText.trim() + "%' order by num DESC";
+			}
+			ps = conn.prepareStatement(SQL);
+			rs = ps.executeQuery();  // select
 			
 			while(rs.next()) {
 				int num = rs.getInt("num");
@@ -74,7 +135,7 @@ public class BoardDAO {
 		
 		return list;
 	}
-	
+			
 	// 글 등록(저장)
 	public int boardInsert(BoardVO vo) {
 		String SQL = "insert into board(title, content, writer, pw) values (?, ?, ?, ?)";
@@ -187,7 +248,7 @@ public class BoardDAO {
 		return vo;
 	}
 	
-	
+	// 조회수 증가 (제한적)
 	private void upRegcount(int num, Timestamp regdate) {
 		String SQL = "update board set regcount = regcount + 1 where num=?";
 		

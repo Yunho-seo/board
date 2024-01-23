@@ -24,7 +24,7 @@
   
   	<script type="text/javascript">
 	function deleteFn(num) {
-		location.href="boardDelete.do?num="+num;
+		location.href="boardDeleteView.do?num="+num;
 	}
 	</script>
 
@@ -37,6 +37,23 @@
 </div>
 
 <body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link" href="/Board/boardList.do">메인으로</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">자유게시판</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">공지사항</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
 <form action="boardUpdateView.do" method="get">
 <input type="hidden" name="num" value="<%=vo.getNum()%>"/>

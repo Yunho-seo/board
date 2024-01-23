@@ -30,9 +30,24 @@
 
 <body>
 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link" href="/Board/boardList.do">메인으로</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">자유게시판</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">공지사항</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <form action="boardUpdate.do", method="post">
 <input type="hidden" name="num" value="<%=vo.getNum()%>"/>
-	<h1>게시글 수정화면</h1>
 	<table class="table table-hover">
 	<tbody>
 	<% if(vo!=null) { %>
