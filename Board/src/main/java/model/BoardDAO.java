@@ -21,9 +21,10 @@ public class BoardDAO {
 		}
 	}
 	
-	/*
-	// 리스트인데 페이지네이션을 곁들인
-	public ArrayList<BoardVO> boardList(int pageNumber, int pageSize) {
+	
+	
+	// limit을 통해 페이지 뿌려줌
+	public ArrayList<BoardVO> selectPage(int pageNumber, int pageSize) {
 		String SQL = "select num, title, writer, regdate, regcount from board order by num DESC limit ?, ?";
 		getConnect();
 		ArrayList<BoardVO> list = new ArrayList<>();
@@ -51,10 +52,8 @@ public class BoardDAO {
 		}
 		return list;
 	}
-	*/
 	
-	/*
-	// 전체 건수
+	// 데이터(게시글)의 전체 개수 확인
 	public int getTotalRecords() {
 		String SQL = "select count(*) from board";
 		getConnect();
@@ -64,7 +63,7 @@ public class BoardDAO {
 			ps = conn.prepareStatement(SQL);
 			rs = ps.executeQuery();
 			
-			if (rs.next()) {
+			if(rs.next()) {
 				totalRecords = rs.getInt(1);
 			}
 		} catch (Exception e) {
@@ -74,7 +73,8 @@ public class BoardDAO {
 		}
 		return totalRecords;
 	}
-	*/
+	
+	// ===================================
 	
 	// 리스트
 	public ArrayList<BoardVO> boardList() {
@@ -103,6 +103,8 @@ public class BoardDAO {
 		}
 		return list;
 	}
+	
+	// ===================================
 	
 	// 검색	
 	public ArrayList<BoardVO> getSearch(String searchField, String searchText) {

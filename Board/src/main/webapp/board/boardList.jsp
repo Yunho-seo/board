@@ -7,9 +7,15 @@
 	request.setCharacterEncoding("UTF-8");	
 	String searchText = request.getParameter("searchText");
 
+	int pageNumber = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
+	int pageSize = 10;
+	
 	// DB에서 데이터 가져오기
 	BoardDAO dao = new BoardDAO();
-	ArrayList<BoardVO> list = dao.boardList();
+	ArrayList<BoardVO> list = dao.selectPage(pageNumber, pageSize);
+	
+	int totalRecords = dao.getTotalRecords();
+	int totalPages = (int)Math.ceil((double) totalRecords / pageSize);
 %>
 <!DOCTYPE html>
 <html>
@@ -105,26 +111,24 @@
 	</tbody>
 </table>
 
-<%-- 
 <div class="pagination" style="text-align: center;">
 	<!-- 이전(Previous) 페이지로 이동 -->
-	<% if (currentPage > 1) { %>
-		<a href="/Board/boardList.do?page=<%=currentPage - 1%>" class="pagination-link">&lt; 이전</a>
+	<% if (pageNumber > 1) { %>
+		<a href="/Board/boardList.do?page=<%=pageNumber - 1 %>" class="pagination-link">&lt; 이전</a>
 	<% } else { %>
 		<span class="pagination-link-disabled">&lt; 이전</span>
 	<% } %>
 	
 	<!-- 페이지 번호 출력하기 -->	
-	<span class="pagination-current"><%=currentPage %></span>
+	<span class="pagination-current"><%=pageNumber %></span>
 	
 	<!-- 다음(Next) 페이지로 이동 -->
-	<%= if (currentPage < totalPages) { %>
-		<a href="/Board/boardList.do?page=<%=currentPage + 1 %>" class="pagination-link">다음 &gt;</a>
+	<% if (pageNumber < totalPages) { %>
+		<a href="/Board/boardList.do?page=<%=pageNumber + 1 %>" class="pagination-link">다음 &gt;</a>
 	<% } else { %>
 		<span class="pagination-link-disabled">다음 &gt;</span>
 	<% } %>
 </div>
---%>	
 
 <%!
 	private String formatDate(Date date) {
@@ -132,3 +136,5 @@
 		return format.format(date);
 }
 %>
+</body>
+</html>
